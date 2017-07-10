@@ -14,57 +14,6 @@ tickcount = 0
 startHz = 5
 lastTime = 0
 
-
-
-
-def my_callback(a,b,c):
-        global tickcount       # put in to debounce
-        global startHz       # Current speed
-        global state
-        global lastTime
-        
-        if (state ==0):
-                if (lastTime > 0):
-                        print "Left",c
-
-        state = 1
-        lastTime = c
-        
-                
-                
-
-def my_callback1(a,b,c):
-        
-        global tickcount       # put in to debounce
-        global startHz       # Current speed
-        global state
-        global lastTime
-
-        if (state == 1):
-                if (lastTime > 0):
-                        print "Right",c
-
-        state = 0
-        lastTime = c
-        
-def up():
-        GPIO.setmode(GPIO.BCM)
-
-        outport1 = 17
-        outport2 = 27
-        outport3 = 22
-        outport4 = 18
-        
-        for x in range(0, 200):
-                offset = x % 8
-#        pwm = GPIO.PWM(outport, startHz) # 100 Hz
-
-                GPIO.output(outport1, seq[offset][0])  
-                GPIO.output(outport2, seq[offset][1])  
-                GPIO.output(outport3, seq[offset][2])  
-                GPIO.output(outport4, seq[offset][3])  
-
-
         
 inport = 25
 inport2 = 24
@@ -129,56 +78,80 @@ stdscr.keypad(1)
 stdscr.addstr(0,10,"Hit 'q' to quit")
 stdscr.refresh()
 
-key = ''
-while key != ord('q'):
-    key = stdscr.getch()
-    stdscr.addch(20,25,key)
-    stdscr.refresh()
-    if key == curses.KEY_UP: 
-	for x in range(0, steps):
-	        offset = x % 8
+try:
+    key = ''
+    while key != ord('q'):
+        key = stdscr.getch()
+        stdscr.addch(20,25,key)
+        stdscr.refresh()
+        if key == curses.KEY_UP: 
+            for x in range(0, steps):
+                offset = x % 8
 
-	        GPIO.output(outport1, seq[offset][0])  
-	        GPIO.output(outport2, seq[offset][1])  
-	        GPIO.output(outport3, seq[offset][2])  
-	        GPIO.output(outport4, seq[offset][3])  
-	        sleep(timeStep)
+            	GPIO.output(outport1, seq[offset][0])  
+                GPIO.output(outport2, seq[offset][1])  
+                GPIO.output(outport3, seq[offset][2])  
+                GPIO.output(outport4, seq[offset][3])  
+                sleep(timeStep)
+
+            GPIO.output(outport1, 0)  
+            GPIO.output(outport2, 0)  
+            GPIO.output(outport3, 0)  
+            GPIO.output(outport4, 0)  
 
         
-    elif key == curses.KEY_DOWN: 
-	for x in range(0, steps):
-        	offset = 7 - (x % 8)
+        elif key == curses.KEY_DOWN: 
+            for x in range(0, steps):
+                offset = 7 - (x % 8)
 
-	        GPIO.output(outport1, seq[offset][0])  
-	        GPIO.output(outport2, seq[offset][1])  
-	        GPIO.output(outport3, seq[offset][2])  
-        	GPIO.output(outport4, seq[offset][3])  
-	        sleep(timeStep)
+                GPIO.output(outport1, seq[offset][0])  
+                GPIO.output(outport2, seq[offset][1])  
+                GPIO.output(outport3, seq[offset][2])  
+                GPIO.output(outport4, seq[offset][3])  
+                sleep(timeStep)
 
-
-    elif key == curses.KEY_LEFT: 
-	for x in range(0, steps):
-	        offset = x % 8
-	        GPIO.output(outport5, seq[offset][0])  
-	        GPIO.output(outport6, seq[offset][1])  
-	        GPIO.output(outport7, seq[offset][2])  
-	        GPIO.output(outport8, seq[offset][3])  
-	        sleep(timeStep)
-
-    elif key == curses.KEY_RIGHT: 
-	for x in range(0, steps):
-	        offset = 7 - (x % 8)
-	        GPIO.output(outport5, seq[offset][0])  
-	        GPIO.output(outport6, seq[offset][1])  
-	        GPIO.output(outport7, seq[offset][2])  
-	        GPIO.output(outport8, seq[offset][3])  
-	        sleep(timeStep)
-
-curses.endwin()
+            GPIO.output(outport1, 0)  
+            GPIO.output(outport2, 0)  
+            GPIO.output(outport3, 0)  
+            GPIO.output(outport4, 0)  
 
 
+        elif key == curses.KEY_LEFT: 
+            for x in range(0, steps):
+                offset = x % 8
+                GPIO.output(outport5, seq[offset][0])  
+                GPIO.output(outport6, seq[offset][1])  
+                GPIO.output(outport7, seq[offset][2])  
+                GPIO.output(outport8, seq[offset][3])  
+                sleep(timeStep)
+
+            GPIO.output(outport5, 0)  
+            GPIO.output(outport6, 0)  
+            GPIO.output(outport7, 0)  
+            GPIO.output(outport8, 0)  
+
+
+        elif key == curses.KEY_RIGHT: 
+            for x in range(0, steps):
+	           offset = 7 - (x % 8)
+	           GPIO.output(outport5, seq[offset][0])  
+               GPIO.output(outport6, seq[offset][1])  
+	           GPIO.output(outport7, seq[offset][2])  
+	           GPIO.output(outport8, seq[offset][3])  
+	           sleep(timeStep)
+            
+            GPIO.output(outport5, 0)  
+            GPIO.output(outport6, 0)  
+            GPIO.output(outport7, 0)  
+            GPIO.output(outport8, 0)  
+
+
+finally:
 # pwm.stop()  
-GPIO.cleanup()    
+    GPIO.cleanup()    
+    curses.endwin()
+
+
 
 print "OFF"
 
