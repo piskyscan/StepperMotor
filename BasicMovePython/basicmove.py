@@ -133,12 +133,12 @@ try:
 
         elif key == curses.KEY_RIGHT: 
             for x in range(0, steps):
-	           offset = 7 - (x % 8)
-	           GPIO.output(outport5, seq[offset][0])  
-               GPIO.output(outport6, seq[offset][1])  
-	           GPIO.output(outport7, seq[offset][2])  
-	           GPIO.output(outport8, seq[offset][3])  
-	           sleep(timeStep)
+                offset = 7 - (x % 8)
+                GPIO.output(outport5, seq[offset][0])  
+                GPIO.output(outport6, seq[offset][1])  
+                GPIO.output(outport7, seq[offset][2])  
+                GPIO.output(outport8, seq[offset][3])  
+                sleep(timeStep)
             
             GPIO.output(outport5, 0)  
             GPIO.output(outport6, 0)  
